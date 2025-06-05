@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Costa07 | Loja de eBooks</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Costa07</h1>
+      <nav>
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#produtos">Produtos</a></li>
+          <li><a href="#carrinho">Carrinho</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section id="inicio" class="hero">
+    <div class="container">
+      <h2>eBooks Kindle e Produtos Digitais Exclusivos</h2>
+      <p>Encontre conhecimento, entretenimento e praticidade. Compre com segurança.</p>
+      <a href="#produtos" class="btn">Ver Produtos</a>
+    </div>
+  </section>
+
+  <section id="produtos" class="produtos">
+    <div class="container">
+      <h2>Produtos em Destaque</h2>
+      <div class="grid">
+        <div class="produto" data-nome="Como Ficar Rico no Kindle" data-preco="19.90">
+          <img src="ebook1.jpg" alt="eBook 1"/>
+          <h3>Como Ficar Rico no Kindle</h3>
+          <p>Aprenda passo a passo como vender no Kindle e ter renda extra.</p>
+          <button onclick="adicionarCarrinho(this)">Adicionar ao Carrinho</button>
+        </div>
+        <div class="produto" data-nome="Hábitos de Milionários" data-preco="24.90">
+          <img src="ebook2.jpg" alt="eBook 2"/>
+          <h3>Hábitos de Milionários</h3>
+          <p>Descubra os segredos dos grandes empreendedores.</p>
+          <button onclick="adicionarCarrinho(this)">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="carrinho" class="carrinho">
+    <div class="container">
+      <h2>Seu Carrinho</h2>
+      <ul id="lista-carrinho"></ul>
+      <p>Total: R$ <span id="total">0.00</span></p>
+      <button onclick="gerarPix()">Gerar Pagamento PIX</button>
+      <p id="chave-pix"></p>
+    </div>
+  </section>
+
+  <section id="sobre" class="sobre">
+    <div class="container">
+      <h2>Sobre Nós</h2>
+      <p>Somos a <strong>Costa07</strong>, uma loja digital criada por jovens com visão de futuro. Nosso foco é oferecer produtos digitais de qualidade com preço justo e entrega rápida.</p>
+    </div>
+  </section>
+
+  <section id="contato" class="contato">
+    <div class="container">
+      <h2>Fale Conosco</h2>
+      <form action="https://formsubmit.co/SEUEMAIL@email.com" method="POST">
+        <input type="email" name="email" placeholder="Seu e-mail" required/>
+        <textarea name="message" placeholder="Sua mensagem" required></textarea>
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Costa07. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    let carrinho = [];
+
+    function adicionarCarrinho(btn) {
+      const produto = btn.parentElement;
+      const nome = produto.dataset.nome;
+      const preco = parseFloat(produto.dataset.preco);
+
+      carrinho.push({ nome, preco });
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const lista = document.getElementById("lista-carrinho");
+      const totalSpan = document.getElementById("total");
+      lista.innerHTML = "";
+      let total = 0;
+
+      carrinho.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.nome} - R$ ${item.preco.toFixed(2)}`;
+        lista.appendChild(li);
+        total += item.preco;
+      });
+
+      totalSpan.textContent = total.toFixed(2);
+    }
+
+    function gerarPix() {
+      const total = carrinho.reduce((acc, item) => acc + item.preco, 0).toFixed(2);
+      const chave = "SUA_CHAVE_PIX_AQUI";
+      const mensagem = `Pagamento Costa07 - Total: R$ ${total}`;
+      const texto = `Use a chave PIX abaixo para pagar:
+
+Chave: ${chave}
+Mensagem: ${mensagem}`;
+
+      document.getElementById("chave-pix").textContent = texto;
+    }
+  </script>
+</body>
+</html>
